@@ -1,4 +1,4 @@
-package com.almiga.user.domain.model
+package com.almiga.chirp.domain.model
 
 import java.util.UUID
 
