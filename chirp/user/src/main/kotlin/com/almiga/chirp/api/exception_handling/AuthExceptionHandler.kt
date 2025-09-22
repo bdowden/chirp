@@ -20,7 +20,7 @@ class AuthExceptionHandler {
         "code" to "USER_EXISTS",
         "message" to e.message
     )
-    
+
     @ExceptionHandler(InvalidTokenException::class)
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     fun onInvalidToken(
