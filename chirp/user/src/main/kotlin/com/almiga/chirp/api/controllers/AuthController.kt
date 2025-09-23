@@ -7,8 +7,8 @@ import com.almiga.chirp.api.dto.RegisterRequest
 import com.almiga.chirp.api.dto.UserDto
 import com.almiga.chirp.api.mappers.toAuthenticatedUserDto
 import com.almiga.chirp.api.mappers.toUserDto
-import com.almiga.chirp.service.auth.AuthService
-import com.almiga.chirp.service.auth.EmailVerificationService
+import com.almiga.chirp.service.AuthService
+import com.almiga.chirp.service.EmailVerificationService
 import jakarta.validation.Valid
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping

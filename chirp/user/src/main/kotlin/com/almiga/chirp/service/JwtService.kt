@@ -1,4 +1,4 @@
-package com.almiga.chirp.service.auth
+package com.almiga.chirp.service
 
 import com.almiga.chirp.domain.exception.InvalidTokenException
 import com.almiga.chirp.domain.model.UserId
