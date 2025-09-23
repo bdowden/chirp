@@ -38,3 +38,4 @@ class UserEntity(
     @UpdateTimestamp
     var updatedAt: Instant = Instant.now(),
 )
+
