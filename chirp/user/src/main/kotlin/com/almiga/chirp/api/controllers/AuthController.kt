@@ -1,14 +1,18 @@
 package com.almiga.chirp.api.controllers
 
 import com.almiga.chirp.api.dto.AuthenticatedUserDto
+import com.almiga.chirp.api.dto.ChangePasswordRequest
+import com.almiga.chirp.api.dto.EmailRequest
 import com.almiga.chirp.api.dto.LoginRequest
 import com.almiga.chirp.api.dto.RefreshRequest
 import com.almiga.chirp.api.dto.RegisterRequest
+import com.almiga.chirp.api.dto.ResetPasswordRequest
 import com.almiga.chirp.api.dto.UserDto
 import com.almiga.chirp.api.mappers.toAuthenticatedUserDto
 import com.almiga.chirp.api.mappers.toUserDto
 import com.almiga.chirp.service.AuthService
 import com.almiga.chirp.service.EmailVerificationService
+import com.almiga.chirp.service.PasswordResetService
 import jakarta.validation.Valid
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
@@ -22,6 +26,7 @@ import org.springframework.web.bind.annotation.RestController
 class AuthController(
     private val authService: AuthService,
     private val emailVerificationService: EmailVerificationService,
+    private val passwordResetService: PasswordResetService,
 ) {
 
     @PostMapping("/register")
@@ -59,5 +64,29 @@ class AuthController(
         @RequestParam token: String
     ) {
         emailVerificationService.verifyEmail(token)
+    }
+
+    @PostMapping("/forgot-password")
+    fun forgotPassword(
+        @Valid @RequestBody body: EmailRequest
+    ) {
+        passwordResetService.requestPasswordReset(body.email)
+    }
+
+    @PostMapping("/reset-password")
+    fun resetPassword(
+        @Valid @RequestBody body: ResetPasswordRequest
+    ) {
+        passwordResetService.resetPassword(
+            token = body.token,
+            newPassword = body.newPassword
+        )
+    }
+
+    @PostMapping("/change-password")
+    fun changePassword(
+        @Valid @RequestBody body: ChangePasswordRequest
+    ) {
+        // TODO: Extract request user ID and call service
     }
 }
