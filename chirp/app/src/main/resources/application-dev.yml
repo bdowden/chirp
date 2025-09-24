@@ -4,3 +4,8 @@ spring:
       ddl-auto: update
 nginx:
   require-proxy: false
+
+chirp:
+  rate-limit:
+    ip:
+      apply-limit: false
