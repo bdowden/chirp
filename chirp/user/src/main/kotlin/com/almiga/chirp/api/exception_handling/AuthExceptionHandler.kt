@@ -3,6 +3,7 @@ package com.almiga.chirp.api.exception_handling
 import com.almiga.chirp.domain.exception.EmailNotVerifiedException
 import com.almiga.chirp.domain.exception.InvalidCredentialsException
 import com.almiga.chirp.domain.exception.InvalidTokenException
+import com.almiga.chirp.domain.exception.RateLimitException
 import com.almiga.chirp.domain.exception.SamePasswordException
 import com.almiga.chirp.domain.exception.UserAlreadyExistsException
 import com.almiga.chirp.domain.exception.UserNotFoundException
@@ -22,6 +23,15 @@ class AuthExceptionHandler {
         e: UserAlreadyExistsException
     ) = mapOf(
         "code" to "USER_EXISTS",
+        "message" to e.message
+    )
+
+    @ExceptionHandler(RateLimitException::class)
+    @ResponseStatus(HttpStatus.TOO_MANY_REQUESTS)
+    fun onRateLimitExceeded(
+        e: RateLimitException
+    ) = mapOf(
+        "code" to "RATE_LIMIT_EXCEEDED",
         "message" to e.message
     )
 

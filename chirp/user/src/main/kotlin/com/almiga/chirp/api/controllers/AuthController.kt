@@ -10,6 +10,7 @@ import com.almiga.chirp.api.dto.ResetPasswordRequest
 import com.almiga.chirp.api.dto.UserDto
 import com.almiga.chirp.api.mappers.toAuthenticatedUserDto
 import com.almiga.chirp.api.mappers.toUserDto
+import com.almiga.chirp.infra.rate_limiting.EmailRateLimiter
 import com.almiga.chirp.service.AuthService
 import com.almiga.chirp.service.EmailVerificationService
 import com.almiga.chirp.service.PasswordResetService
@@ -27,6 +28,7 @@ class AuthController(
     private val authService: AuthService,
     private val emailVerificationService: EmailVerificationService,
     private val passwordResetService: PasswordResetService,
+    private val emailRateLimiter: EmailRateLimiter
 ) {
 
     @PostMapping("/register")
@@ -57,6 +59,24 @@ class AuthController(
         return authService
             .refresh(body.refreshToken)
             .toAuthenticatedUserDto()
+    }
+
+    @PostMapping("/logout")
+    fun logout(
+        @RequestBody body: RefreshRequest
+    ) {
+        authService.logout(body.refreshToken)
+    }
+
+    @PostMapping("/resend-verification")
+    fun resendVerification(
+        @Valid @RequestBody body: EmailRequest
+    ) {
+        emailRateLimiter.withRateLimit(
+            email = body.email
+        ) {
+            emailVerificationService.resendVerificationEmail(body.email)
+        }
     }
 
     @GetMapping("/verify")

@@ -30,6 +30,7 @@ class AuthService(
     private val emailVerificationService: EmailVerificationService
 ) {
 
+    @Transactional
     fun register(email: String, username: String, password: String): User {
         val trimmedEmail = email.trim()
         val user = userRepository.findByEmailOrUsername(
@@ -64,7 +65,7 @@ class AuthService(
             throw InvalidCredentialsException()
         }
 
-        if (!user.hasVerifiedEmail) {
+        if(!user.hasVerifiedEmail) {
             throw EmailNotVerifiedException()
         }
 
@@ -118,6 +119,13 @@ class AuthService(
                 refreshToken = newRefreshToken
             )
         } ?: throw UserNotFoundException()
+    }
+
+    @Transactional
+    fun logout(refreshToken: String) {
+        val userId = jwtService.getUserIdFromToken(refreshToken)
+        val hashed = hashToken(refreshToken)
+        refreshTokenRepository.deleteByUserIdAndHashedToken(userId, hashed)
     }
 
     private fun storeRefreshToken(userId: UserId, token: String) {

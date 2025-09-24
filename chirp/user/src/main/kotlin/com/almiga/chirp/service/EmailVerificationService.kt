@@ -37,6 +37,10 @@ class EmailVerificationService(
         return emailVerificationTokenRepository.save(token).toEmailVerificationToken()
     }
 
+    fun resendVerificationEmail(email: String) {
+        // TODO: Trigger resend
+    }
+
     @Transactional
     fun verifyEmail(token: String) {
         val verificationToken = emailVerificationTokenRepository.findByToken(token)
