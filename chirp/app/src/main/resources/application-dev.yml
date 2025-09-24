@@ -2,3 +2,5 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
+nginx:
+  require-proxy: false
