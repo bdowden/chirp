@@ -47,16 +47,13 @@ coil-network = "3.3.0"
 moko = "0.19.1"
 buildkonfig = "0.17.1"
 
-projectApplicationId = "com.plcoding.chirp"
+projectApplicationId = "com.almiga.chirp"
 projectVersionName = "1.0"
 projectMinSdkVersion = "26"
 projectTargetSdkVersion = "36"
 projectCompileSdkVersion = "36"
 projectVersionCode = "1"
 
-# Desktop Version
-desktopPackageName = "Chirp"
-desktopPackageVersion = "1.0.0"
 runner = "1.5.2"
 junit = "1.3.0"
 
@@ -156,6 +153,8 @@ androidx-runner = { group = "androidx.test", name = "runner", version.ref = "run
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junit" }
 
 [plugins]
+
+convention-android-application = { id = "com.almiga.convention.android.application", version = "unspecified" }
 
 # Android
 android-application = { id = "com.android.application", version.ref = "agp" }
