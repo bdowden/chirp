@@ -171,7 +171,7 @@ convention-kmp-library = { id = "com.almiga.convention.kmp.library", version = "
 convention-cmp-library = { id = "com.almiga.convention.cmp.library", version = "unspecified" }
 convention-cmp-feature = { id = "com.almiga.convention.cmp.feature", version = "unspecified" }
 convention-buildkonfig = { id = "com.almiga.convention.buildkonfig", version = "unspecified" }
-
+convention-room = { id = "com.almiga.convention.room", version = "unspecified" }
 
 # Android
 android-application = { id = "com.android.application", version.ref = "agp" }
