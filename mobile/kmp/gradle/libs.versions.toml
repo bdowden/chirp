@@ -140,6 +140,9 @@ kotlin-gradlePlugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", ve
 androidx-room-gradle-plugin = { module = "androidx.room:room-gradle-plugin", version.ref = "room" }
 ksp-gradlePlugin = { group = "com.google.devtools.ksp", name = "com.google.devtools.ksp.gradle.plugin", version.ref = "ksp" }
 
+buildkonfig-gradlePlugin = { group = "com.codingfeline.buildkonfig", name = "buildkonfig-gradle-plugin", version.ref = "buildkonfig" }
+buildkonfig-compiler = { group = "com.codingfeline.buildkonfig", name = "buildkonfig-compiler", version.ref = "buildkonfig" }
+
 androidx-compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
 androidx-compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
 
@@ -167,6 +170,7 @@ convention-cmp-application = { id = "com.almiga.convention.cmp.application", ver
 convention-kmp-library = { id = "com.almiga.convention.kmp.library", version = "unspecified" }
 convention-cmp-library = { id = "com.almiga.convention.cmp.library", version = "unspecified" }
 convention-cmp-feature = { id = "com.almiga.convention.cmp.feature", version = "unspecified" }
+convention-buildkonfig = { id = "com.almiga.convention.buildkonfig", version = "unspecified" }
 
 
 # Android
