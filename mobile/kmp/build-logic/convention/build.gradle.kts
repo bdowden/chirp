@@ -47,8 +47,16 @@ gradlePlugin {
             implementationClass = "CmpApplicationConventionPlugin"
         }
         register("kmpLibrary") {
-            id = "com.almiga.convention.kmpLibrary"
+            id = "com.almiga.convention.kmp.library"
             implementationClass = "KmpLibraryConventionPlugin"
+        }
+        register("cmpLibrary") {
+            id = "com.almiga.convention.cmp.library"
+            implementationClass = "CmpLibraryConventionPlugin"
+        }
+        register("cmpFeature") {
+            id = "com.almiga.convention.cmp.feature"
+            implementationClass = "CmpFeatureConventionPlugin"
         }
     }
 }
