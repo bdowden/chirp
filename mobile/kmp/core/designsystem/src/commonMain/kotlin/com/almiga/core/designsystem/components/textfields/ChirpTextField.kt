@@ -46,6 +46,54 @@ fun ChirpTextField(
     keyboardType: KeyboardType = KeyboardType.Text,
     onFocusChanged: (Boolean) -> Unit = { },
 ) {
+    ChirpTextFieldLayout(
+        title = title,
+        modifier = modifier,
+        isError = isError,
+        supportingText = supportingText,
+        enabled = enabled,
+        onFocusChanged = onFocusChanged,
+    ) { styleModifier, interactionSource ->
+        BasicTextField(
+            state = state,
+            enabled = enabled,
+            lineLimits = if (singleLine) {
+                TextFieldLineLimits.SingleLine
+            } else {
+                TextFieldLineLimits.Default
+            },
+            textStyle = MaterialTheme.typography.bodyMedium.copy(
+                color = if (enabled) {
+                    MaterialTheme.colorScheme.onSurface
+                } else {
+                    MaterialTheme.colorScheme.extended.textPlaceholder
+                }
+            ),
+            keyboardOptions = KeyboardOptions(
+                keyboardType = keyboardType,
+            ),
+            cursorBrush = SolidColor(MaterialTheme.colorScheme.onSurface),
+            interactionSource = interactionSource,
+            modifier = styleModifier,
+            decorator = { innerBox ->
+                Box(
+                    modifier = Modifier.fillMaxWidth(),
+                    contentAlignment = Alignment.CenterStart,
+                ) {
+                    if (state.text.isEmpty() && placeholder != null) {
+                        Text(
+                            text = placeholder,
+                            color = MaterialTheme.colorScheme.extended.textPlaceholder,
+                            style = MaterialTheme.typography.bodyMedium,
+                        )
+                    }
+                    innerBox()
+                }
+            }
+        )
+    }
+
+
     val interactionSource = remember {
         MutableInteractionSource()
     }
@@ -68,64 +116,7 @@ fun ChirpTextField(
             Spacer(modifier = Modifier.height(8.dp))
         }
 
-        BasicTextField(
-            state = state,
-            enabled = enabled,
-            lineLimits = if (singleLine) {
-                TextFieldLineLimits.SingleLine
-            } else {
-                TextFieldLineLimits.Default
-            },
-            textStyle = MaterialTheme.typography.bodyMedium.copy(
-                color = if (enabled) {
-                    MaterialTheme.colorScheme.onSurface
-                } else {
-                    MaterialTheme.colorScheme.extended.textPlaceholder
-                }
-            ),
-            keyboardOptions = KeyboardOptions(
-                keyboardType = keyboardType,
-            ),
-            cursorBrush = SolidColor(MaterialTheme.colorScheme.onSurface),
-            interactionSource = interactionSource,
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(
-                    color = when {
-                        isFocused -> MaterialTheme.colorScheme.primary.copy(
-                            alpha = 0.05f,
-                        )
-                        enabled -> MaterialTheme.colorScheme.surface
-                        else -> MaterialTheme.colorScheme.extended.secondaryFill
-                    },
-                    shape = RoundedCornerShape(8.dp),
-                )
-                .border(
-                    width = 1.dp,
-                    color = when {
-                        isError -> MaterialTheme.colorScheme.error
-                        isFocused -> MaterialTheme.colorScheme.primary
-                        else -> MaterialTheme.colorScheme.outline
-                    },
-                    shape = RoundedCornerShape(8.dp)
-                )
-                .padding(12.dp),
-            decorator = { innerBox ->
-                Box(
-                    modifier = Modifier.fillMaxWidth(),
-                    contentAlignment = Alignment.CenterStart,
-                ) {
-                    if (state.text.isEmpty() && placeholder != null) {
-                        Text(
-                            text = placeholder,
-                            color = MaterialTheme.colorScheme.extended.textPlaceholder,
-                            style = MaterialTheme.typography.bodyMedium,
-                        )
-                    }
-                    innerBox()
-                }
-            }
-        )
+
         if (supportingText != null) {
             Spacer(modifier = Modifier.height(4.dp))
             Text(
