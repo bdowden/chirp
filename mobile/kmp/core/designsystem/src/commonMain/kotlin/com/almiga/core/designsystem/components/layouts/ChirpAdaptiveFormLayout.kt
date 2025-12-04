@@ -118,7 +118,7 @@ fun ChirpAdaptiveFormLayout(
                 logo()
                 Column(
                     modifier = Modifier
-                        .widthIn(480.dp)
+                        .widthIn(max = 480.dp)
                         .fillMaxWidth()
                         .clip(RoundedCornerShape(32.dp))
                         .background(MaterialTheme.colorScheme.surface)
