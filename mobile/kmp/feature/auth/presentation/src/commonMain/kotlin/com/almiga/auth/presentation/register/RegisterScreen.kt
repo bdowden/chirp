@@ -30,29 +30,37 @@ import com.almiga.core.designsystem.components.layouts.ChirpSnackbarScaffold
 import com.almiga.core.designsystem.components.textfields.ChirpPasswordTextField
 import com.almiga.core.designsystem.components.textfields.ChirpTextField
 import com.almiga.core.designsystem.theme.ChirpTheme
+import com.almiga.core.presentation.util.ObserveAsEvents
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
-
 @Composable
 fun RegisterRoot(
-    viewModel: RegisterViewModel = viewModel()
+    viewModel: RegisterViewModel = viewModel(),
+    onRegisterSuccess: (String) -> Unit,
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     val snackbarHostState = remember { SnackbarHostState() }
 
+    ObserveAsEvents(viewModel.events) { event ->
+        when(event) {
+            is RegisterEvent.Success -> {
+                onRegisterSuccess(event.email)
+            }
+        }
+    }
+
     RegisterScreen(
         state = state,
-        snackbarHostState = snackbarHostState,
-        onAction = viewModel::onAction
+        onAction = viewModel::onAction,
+        snackbarHostState = snackbarHostState
     )
-
 }
 
 @Composable
 fun RegisterScreen(
     state: RegisterState,
     onAction: (RegisterAction) -> Unit,
-    snackbarHostState: SnackbarHostState,
+    snackbarHostState: SnackbarHostState
 ) {
     ChirpSnackbarScaffold(
         snackbarHostState = snackbarHostState
@@ -69,26 +77,22 @@ fun RegisterScreen(
                 supportingText = state.usernameError?.asString()
                     ?: stringResource(Res.string.username_hint),
                 isError = state.usernameError != null,
-                onFocusChanged = {
+                onFocusChanged = { isFocused ->
                     onAction(RegisterAction.OnInputTextFocusGain)
                 }
             )
-            
             Spacer(modifier = Modifier.height(16.dp))
-
             ChirpTextField(
                 state = state.emailTextState,
                 placeholder = stringResource(Res.string.email_placeholder),
                 title = stringResource(Res.string.email),
                 supportingText = state.emailError?.asString(),
                 isError = state.emailError != null,
-                onFocusChanged = {
+                onFocusChanged = { isFocused ->
                     onAction(RegisterAction.OnInputTextFocusGain)
                 }
             )
-
             Spacer(modifier = Modifier.height(16.dp))
-
             ChirpPasswordTextField(
                 state = state.passwordTextState,
                 placeholder = stringResource(Res.string.password),
@@ -96,13 +100,13 @@ fun RegisterScreen(
                 supportingText = state.passwordError?.asString()
                     ?: stringResource(Res.string.password_hint),
                 isError = state.passwordError != null,
-                isPasswordVisible = state.isPasswordVisible,
-                onFocusChanged = {
+                onFocusChanged = { isFocused ->
                     onAction(RegisterAction.OnInputTextFocusGain)
                 },
                 onToggleVisibilityClick = {
                     onAction(RegisterAction.OnTogglePasswordVisibilityClick)
-                }
+                },
+                isPasswordVisible = state.isPasswordVisible
             )
             Spacer(modifier = Modifier.height(16.dp))
 
@@ -116,13 +120,13 @@ fun RegisterScreen(
                 modifier = Modifier
                     .fillMaxWidth()
             )
-
+            Spacer(modifier = Modifier.height(8.dp))
             ChirpButton(
                 text = stringResource(Res.string.login),
-                style = ChirpButtonStyle.SECONDARY,
                 onClick = {
                     onAction(RegisterAction.OnLoginClick)
                 },
+                style = ChirpButtonStyle.SECONDARY,
                 modifier = Modifier
                     .fillMaxWidth()
             )
@@ -132,7 +136,7 @@ fun RegisterScreen(
 
 @Preview
 @Composable
-private fun Preview(){
+private fun Preview() {
     ChirpTheme {
         RegisterScreen(
             state = RegisterState(),

@@ -7,22 +7,37 @@ import chirp.feature.auth.presentation.generated.resources.email_error
 import chirp.feature.auth.presentation.generated.resources.password_validation_error
 import chirp.feature.auth.presentation.generated.resources.username_error
 import com.almiga.auth.domain.EmailValidator
+import com.almiga.core.domain.auth.AuthService
+import com.almiga.core.domain.util.DataError
+import com.almiga.core.domain.util.onFailure
+import com.almiga.core.domain.util.onSuccess
 import com.almiga.core.domain.validation.PasswordValidator
 import com.almiga.core.presentation.util.UiText
+import com.almiga.core.presentation.util.toUiText
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 
-class RegisterViewModel : ViewModel() {
-    private var hasLoadedData = false
+class RegisterViewModel(
+    private val authService: AuthService
+) : ViewModel() {
+
+    private val eventChannel = Channel<RegisterEvent>()
+    val events = eventChannel.receiveAsFlow()
+
+    private var hasLoadedInitialData = false
 
     private val _state = MutableStateFlow(RegisterState())
     val state = _state
         .onStart {
-            if (!hasLoadedData) {
-                hasLoadedData = true
+            if (!hasLoadedInitialData) {
+                /** Load initial data here **/
+                hasLoadedInitialData = true
             }
         }
         .stateIn(
@@ -32,9 +47,53 @@ class RegisterViewModel : ViewModel() {
         )
 
     fun onAction(action: RegisterAction) {
-        when(action) {
-
+        when (action) {
+            RegisterAction.OnLoginClick -> Unit
+            RegisterAction.OnRegisterClick -> register()
+            RegisterAction.OnTogglePasswordVisibilityClick -> {
+                _state.update { it.copy(
+                    isPasswordVisible = !it.isPasswordVisible
+                ) }
+            }
             else -> Unit
+        }
+    }
+
+    private fun register() {
+        if (validateFormInputs()) {
+            return
+        }
+
+        viewModelScope.launch {
+            _state.update { it.copy(
+                isRegistering = true
+            ) }
+
+            val email = state.value.emailTextState.text.toString()
+            val username = state.value.usernameTextState.text.toString()
+            val password = state.value.passwordTextState.text.toString()
+
+            authService
+                .register(
+                    email = email,
+                    username = username,
+                    password = password
+                )
+                .onSuccess {
+                    _state.update { it.copy(
+                        isRegistering = false
+                    ) }
+                }
+                .onFailure { error ->
+                    val registrationError = when(error) {
+                        DataError.Remote.CONFLICT -> UiText.Resource(Res.string.username_error)
+                        else -> error.toUiText()
+                    }
+                    _state.update { it.copy(
+                        isRegistering = false,
+                        registrationError = registrationError
+                    ) }
+                }
         }
     }
 
@@ -42,14 +101,16 @@ class RegisterViewModel : ViewModel() {
         _state.update {
             it.copy(
                 emailError = null,
-                passwordError = null,
                 usernameError = null,
+                passwordError = null,
+                registrationError = null
             )
         }
     }
 
     private fun validateFormInputs(): Boolean {
         clearAllTextFieldErrors()
+
         val currentState = state.value
         val email = currentState.emailTextState.text.toString()
         val username = currentState.usernameTextState.text.toString()
@@ -61,30 +122,22 @@ class RegisterViewModel : ViewModel() {
 
         val emailError = if (!isEmailValid) {
             UiText.Resource(Res.string.email_error)
-        } else {
-            null
-        }
-
+        } else null
         val usernameError = if (!isUsernameValid) {
             UiText.Resource(Res.string.username_error)
-        } else {
-            null
-        }
-
+        } else null
         val passwordError = if (!passwordValidationState.isValidPassword) {
             UiText.Resource(Res.string.password_validation_error)
-        } else {
-            null
-        }
+        } else null
 
         _state.update {
             it.copy(
                 emailError = emailError,
-                passwordError = passwordError,
                 usernameError = usernameError,
+                passwordError = passwordError
             )
         }
 
-        return isEmailValid && isUsernameValid && passwordValidationState.isValidPassword
+        return isUsernameValid && isEmailValid && passwordValidationState.isValidPassword
     }
 }
