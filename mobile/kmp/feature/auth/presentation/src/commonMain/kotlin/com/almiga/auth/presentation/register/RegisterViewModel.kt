@@ -115,19 +115,24 @@ class RegisterViewModel(
                     password = password,
                 )
                 .onSuccess {
-                    _state.update { it.copy(
-                        isRegistering = false,
-                    ) }
+                    _state.update {
+                        it.copy(
+                            isRegistering = false,
+                        )
+                    }
+                    eventChannel.send(RegisterEvent.Success(email))
                 }
                 .onFailure { error ->
                     val registrationError = when(error) {
                         DataError.Remote.CONFLICT -> UiText.Resource(Res.string.username_error)
                         else -> error.toUiText()
                     }
-                    _state.update { it.copy(
-                        isRegistering = false,
-                        registrationError = registrationError,
-                    ) }
+                    _state.update {
+                        it.copy(
+                            isRegistering = false,
+                            registrationError = registrationError,
+                        )
+                    }
                 }
         }
     }
