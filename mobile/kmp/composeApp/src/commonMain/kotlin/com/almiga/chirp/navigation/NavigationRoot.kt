@@ -1,16 +1,12 @@
 package com.almiga.chirp.navigation
 
 import androidx.compose.runtime.Composable
-import androidx.navigation.NavController
-import androidx.navigation.NavDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
 import com.almiga.auth.presentation.navigation.AuthGraphRoutes
 import com.almiga.auth.presentation.navigation.authGraph
-import com.almiga.chat.presentation.chatList.ChatListRoute
-import com.almiga.chat.presentation.chatList.ChatListScreenRoot
+import com.almiga.chat.presentation.navigation.ChatGraphRoutes
+import com.almiga.chat.presentation.navigation.chatGraph
 
 @Composable
 fun NavigationRoot(
@@ -24,15 +20,15 @@ fun NavigationRoot(
         authGraph(
             navController = navController,
             onLoginSuccess = {
-                navController.navigate(ChatListRoute) {
+                navController.navigate(ChatGraphRoutes.Graph) {
                     popUpTo(AuthGraphRoutes.Graph) {
                         inclusive = true
                     }
                 }
             }
         )
-        composable<ChatListRoute> {
-            ChatListScreenRoot()
-        }
+        chatGraph(
+            navController = navController
+        )
     }
 }
