@@ -1,36 +1,31 @@
 package com.almiga.core.designsystem.components.layouts
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.style.LineHeightStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import chirp.core.designsystem.generated.resources.Res
-import chirp.core.designsystem.generated.resources.success_checkmark
 import com.almiga.core.designsystem.components.brand.ChirpSuccessIcon
 import com.almiga.core.designsystem.components.buttons.ChirpButton
 import com.almiga.core.designsystem.components.buttons.ChirpButtonStyle
 import com.almiga.core.designsystem.theme.ChirpTheme
 import com.almiga.core.designsystem.theme.extended
-import org.jetbrains.compose.resources.vectorResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
-fun ChirpSimpleSuccessLayout(
+fun ChirpSimpleResultLayout(
     title: String,
     description: String,
-    icon: @Composable () -> Unit,
+    icon: @Composable ColumnScope.() -> Unit,
     primaryButton: @Composable () -> Unit,
     secondaryButton: @Composable (() -> Unit)? = null,
     secondaryError: String? = null,
@@ -94,7 +89,7 @@ fun ChirpSimpleSuccessLayout(
 )
 fun ChirpSimpleSuccessLayoutPreview() {
     ChirpTheme {
-        ChirpSimpleSuccessLayout(
+        ChirpSimpleResultLayout(
             title = "Registration complete",
             description = "Thank you for registering!",
             icon = {
