@@ -43,4 +43,12 @@
     <string name="close">Close</string>
     <string name="submit">Submit</string>
     <string name="error_email_not_verified">Unable to login because your email isn't verified</string>
+    <string name="set_new_password">Set a new password</string>
+    <string name="new_password">New password</string>
+    <string name="error_reset_password_token_invalid">
+        It seems like the reset password link is not valid or has expired. Please request a new email.
+    </string>
+    <string name="reset_password_successfully">
+        Your password has successfully been changed. You can now log in with your new password.
+    </string>
 </resources>
