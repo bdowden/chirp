@@ -93,7 +93,6 @@ fun ChirpTextField(
         )
     }
 
-
     val interactionSource = remember {
         MutableInteractionSource()
     }
@@ -102,34 +101,6 @@ fun ChirpTextField(
 
     LaunchedEffect(isFocused) {
         onFocusChanged(isFocused)
-    }
-
-    Column(
-        modifier = modifier,
-    ) {
-        if (title != null) {
-            Text(
-                text = title,
-                style = MaterialTheme.typography.labelSmall,
-                color = MaterialTheme.colorScheme.extended.textSecondary,
-            )
-            Spacer(modifier = Modifier.height(8.dp))
-        }
-
-
-        if (supportingText != null) {
-            Spacer(modifier = Modifier.height(4.dp))
-            Text(
-                text = supportingText,
-                color = if (isError) {
-                    MaterialTheme.colorScheme.error
-                } else {
-                    MaterialTheme.colorScheme.extended.textTertiary
-                },
-                style = MaterialTheme.typography.bodySmall,
-            )
-        }
-
     }
 }
 
