@@ -1,0 +1,48 @@
+package com.almiga.core.data.auth
+
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.stringPreferencesKey
+import com.almiga.core.data.mappers.toSerializable
+import com.almiga.core.domain.auth.AuthInfo
+import com.almiga.core.domain.auth.SessionStorage
+import com.almiga.core.domain.util.map
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
+import kotlinx.serialization.json.Json
+import kotlin.text.get
+
+class DataStoreSessionStorage(
+    private val dataStore: DataStore<Preferences>
+): SessionStorage {
+
+    private val authInfoKey = stringPreferencesKey("KEY_AUTH_INFO")
+
+    private val json = Json {
+        ignoreUnknownKeys = true
+    }
+
+    override fun observeAuthInfo(): Flow<AuthInfo?> {
+        return dataStore.data.map { preferences ->
+            val serializedJson = preferences[authInfoKey]
+            serializedJson?.let {
+                json.decodeFromString(it)
+            }
+        }
+    }
+
+    override suspend fun set(info: AuthInfo?) {
+        if(info == null) {
+            dataStore.edit {
+                it.remove(authInfoKey)
+            }
+            return
+        }
+
+        val serialized = json.encodeToString(info.toSerializable())
+        dataStore.edit { prefs ->
+            prefs[authInfoKey] = serialized
+        }
+    }
+}

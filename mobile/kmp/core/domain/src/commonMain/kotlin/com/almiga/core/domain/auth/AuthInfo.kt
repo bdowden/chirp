@@ -5,3 +5,4 @@ data class AuthInfo(
     val refreshToken: String,
     val user: User
 )
+

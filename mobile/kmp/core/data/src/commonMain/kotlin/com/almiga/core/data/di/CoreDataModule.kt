@@ -1,9 +1,11 @@
 package com.almiga.core.data.di
 
+import com.almiga.core.data.auth.DataStoreSessionStorage
 import com.almiga.core.data.auth.KtorAuthService
 import com.almiga.core.data.logging.KermitLogger
 import com.almiga.core.data.networking.HttpClientFactory
 import com.almiga.core.domain.auth.AuthService
+import com.almiga.core.domain.auth.SessionStorage
 import com.almiga.core.domain.loggin.ChirpLogger
 import org.koin.core.module.Module
 import org.koin.core.module.dsl.singleOf
@@ -19,4 +21,5 @@ val coreDataModule = module {
         HttpClientFactory(get()).create(get())
     }
     singleOf(::KtorAuthService) bind AuthService::class
+    singleOf(::DataStoreSessionStorage) bind SessionStorage::class
 }
