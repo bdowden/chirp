@@ -1,5 +1,6 @@
 package com.almiga.core.data.auth
 
+import com.almiga.core.data.dto.request.EmailRequest
 import com.almiga.core.data.dto.request.RegisterRequest
 import com.almiga.core.data.networking.post
 import com.almiga.core.domain.auth.AuthService
@@ -23,6 +24,13 @@ class KtorAuthService(
                 username = username,
                 password = password
             )
+        )
+    }
+
+    override suspend fun resendVerificationEmail(email: String): EmptyResult<DataError.Remote> {
+        return httpClient.post(
+            route = "/auth/resend-verification",
+            body = EmailRequest(email),
         )
     }
 }

@@ -19,14 +19,13 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 import chirp.composeapp.generated.resources.Res
 import chirp.composeapp.generated.resources.compose_multiplatform
 import com.almiga.auth.presentation.register.RegisterRoot
+import com.almiga.chirp.navigation.NavigationRoot
 import com.almiga.core.designsystem.theme.ChirpTheme
 
 @Composable
 @Preview
 fun App() {
     ChirpTheme {
-        RegisterRoot(
-            onRegisterSuccess = { }
-        )
+        NavigationRoot()
     }
 }
