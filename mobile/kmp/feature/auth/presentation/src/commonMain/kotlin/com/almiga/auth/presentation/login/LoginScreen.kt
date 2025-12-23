@@ -33,6 +33,7 @@ import com.almiga.core.designsystem.components.layouts.ChirpAdaptiveFormLayout
 import com.almiga.core.designsystem.components.textfields.ChirpPasswordTextField
 import com.almiga.core.designsystem.components.textfields.ChirpTextField
 import com.almiga.core.designsystem.theme.ChirpTheme
+import com.almiga.core.presentation.util.ObserveAsEvents
 
 @Composable
 fun LoginRoot(
@@ -42,6 +43,12 @@ fun LoginRoot(
     onCreateAccountClick: () -> Unit
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
+
+    ObserveAsEvents(viewModel.events) { event ->
+        when(event) {
+            LoginEvent.Success -> onLoginSuccess()
+        }
+    }
 
     LoginScreen(
         state = state,

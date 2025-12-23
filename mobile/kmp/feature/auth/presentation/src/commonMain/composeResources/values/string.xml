@@ -38,4 +38,5 @@
         Unable to verify your email. Maybe the link is invalid or has expired.
     </string>
     <string name="close">Close</string>
+    <string name="error_email_not_verified">Unable to login because your email isn't verified</string>
 </resources>

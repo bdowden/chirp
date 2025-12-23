@@ -11,3 +11,4 @@ data class LoginState(
     val isLoggingIn: Boolean = false,
     val error: UiText? = null
 )
+
