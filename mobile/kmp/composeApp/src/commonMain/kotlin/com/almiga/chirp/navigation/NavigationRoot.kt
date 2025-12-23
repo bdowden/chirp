@@ -2,6 +2,7 @@ package com.almiga.chirp.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavController
+import androidx.navigation.NavDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -12,10 +13,13 @@ import com.almiga.chat.presentation.chatList.ChatListRoute
 import com.almiga.chat.presentation.chatList.ChatListScreenRoot
 
 @Composable
-fun NavigationRoot(navController: NavHostController) {
+fun NavigationRoot(
+    navController: NavHostController,
+    startDestination: Any,
+) {
     NavHost(
         navController = navController,
-        startDestination = AuthGraphRoutes.Graph
+        startDestination = startDestination
     ) {
         authGraph(
             navController = navController,
