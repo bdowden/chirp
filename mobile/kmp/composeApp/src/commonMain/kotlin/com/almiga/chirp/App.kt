@@ -10,6 +10,7 @@ import com.almiga.chat.presentation.chatList.ChatListRoute
 import com.almiga.chirp.navigation.DeepLinkListener
 import com.almiga.chirp.navigation.NavigationRoot
 import com.almiga.core.designsystem.theme.ChirpTheme
+import com.almiga.core.presentation.util.ObserveAsEvents
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -28,6 +29,19 @@ fun App(
             onAuthenticationChecked()
         }
     }
+
+    ObserveAsEvents(viewModel.events) { event ->
+        when(event) {
+            is MainEvent.OnSessionExpired -> {
+                navController.navigate(AuthGraphRoutes.Graph) {
+                    popUpTo(AuthGraphRoutes.Graph) {
+                        inclusive = false
+                    }
+                }
+            }
+        }
+    }
+
     ChirpTheme {
         if(!state.isCheckingAuth) {
             NavigationRoot(
