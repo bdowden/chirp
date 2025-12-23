@@ -37,6 +37,10 @@
     <string name="email_verified_failed_desc">
         Unable to verify your email. Maybe the link is invalid or has expired.
     </string>
+    <string name="forgot_password_email_sent_successfully">
+        We've successfully sent you an email with a link to reset your password
+    </string>
     <string name="close">Close</string>
+    <string name="submit">Submit</string>
     <string name="error_email_not_verified">Unable to login because your email isn't verified</string>
 </resources>
