@@ -9,7 +9,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
 import chirp.feature.auth.presentation.generated.resources.Res
 import chirp.feature.auth.presentation.generated.resources.email
 import chirp.feature.auth.presentation.generated.resources.email_placeholder
@@ -22,10 +21,11 @@ import com.almiga.core.designsystem.components.textfields.ChirpTextField
 import com.almiga.core.designsystem.theme.ChirpTheme
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun ForgotPasswordRoot(
-    viewModel: ForgotPasswordViewModel = viewModel()
+    viewModel: ForgotPasswordViewModel = koinViewModel()
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 
@@ -53,8 +53,8 @@ fun ForgotPasswordScreen(
                 .fillMaxWidth(),
             placeholder = stringResource(Res.string.email_placeholder),
             title = stringResource(Res.string.email),
-            isError = state.emailError != null,
-            supportingText = state.emailError?.asString(),
+            isError = state.errorText != null,
+            supportingText = state.errorText?.asString(),
             keyboardType = KeyboardType.Email,
             singleLine = true
         )

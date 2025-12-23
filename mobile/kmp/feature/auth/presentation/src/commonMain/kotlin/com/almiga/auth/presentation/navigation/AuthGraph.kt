@@ -6,6 +6,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navDeepLink
 import androidx.navigation.navigation
 import com.almiga.auth.presentation.emailVerification.EmailVerificationRoot
+import com.almiga.auth.presentation.forgotPassword.ForgotPasswordRoot
 import com.almiga.auth.presentation.login.LoginRoot
 import com.almiga.auth.presentation.register.RegisterRoot
 import com.almiga.auth.presentation.success.RegisterSuccessRoot
@@ -86,6 +87,9 @@ fun NavGraphBuilder.authGraph(
                     }
                 }
             )
+        }
+        composable<AuthGraphRoutes.ForgotPassword> {
+            ForgotPasswordRoot()
         }
     }
 }
