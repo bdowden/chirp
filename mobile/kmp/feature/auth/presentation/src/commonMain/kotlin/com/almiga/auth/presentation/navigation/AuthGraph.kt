@@ -9,6 +9,7 @@ import com.almiga.auth.presentation.emailVerification.EmailVerificationRoot
 import com.almiga.auth.presentation.forgotPassword.ForgotPasswordRoot
 import com.almiga.auth.presentation.login.LoginRoot
 import com.almiga.auth.presentation.register.RegisterRoot
+import com.almiga.auth.presentation.resetPassword.ResetPasswordRoot
 import com.almiga.auth.presentation.success.RegisterSuccessRoot
 
 fun NavGraphBuilder.authGraph(
@@ -90,6 +91,18 @@ fun NavGraphBuilder.authGraph(
         }
         composable<AuthGraphRoutes.ForgotPassword> {
             ForgotPasswordRoot()
+        }
+        composable<AuthGraphRoutes.ResetPassword>(
+            deepLinks = listOf(
+                navDeepLink {
+                    this.uriPattern = "https://chirp.pl-coding.com/api/auth/reset-password?token={token}"
+                },
+                navDeepLink {
+                    this.uriPattern = "chirp://chirp.pl-coding.com/api/auth/reset-password?token={token}"
+                },
+            )
+        ) {
+            ResetPasswordRoot()
         }
     }
 }
