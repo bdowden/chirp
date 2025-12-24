@@ -14,8 +14,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.text.SpanStyle
@@ -24,18 +22,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
-import chirp.feature.chat.presentation.generated.resources.Res
-import chirp.feature.chat.presentation.generated.resources.group_chat
-import chirp.feature.chat.presentation.generated.resources.you
 import com.almiga.chat.domain.models.ChatMessage
 import com.almiga.chat.presentation.components.ChatItemHeaderRow
 import com.almiga.chat.presentation.model.ChatUi
 import com.almiga.core.designsystem.components.avatar.ChatParticipantUi
-import com.almiga.core.designsystem.components.avatar.ChirpStackedAvatars
 import com.almiga.core.designsystem.theme.ChirpTheme
 import com.almiga.core.designsystem.theme.extended
-import com.almiga.core.designsystem.theme.titleXSmall
-import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import kotlin.time.Clock
 
