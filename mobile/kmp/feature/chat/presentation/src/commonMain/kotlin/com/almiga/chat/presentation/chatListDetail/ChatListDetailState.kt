@@ -11,3 +11,5 @@ sealed interface DialogState {
     data object Profile: DialogState
     data class ManageChat(val chatId: String): DialogState
 }
+
+
